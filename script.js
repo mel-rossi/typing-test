@@ -1,6 +1,6 @@
 const testWrapper = document.querySelector(".test-wrapper");
 const testArea = document.querySelector("#test-area");
-const originText = document.querySelector("#origin-text p").innerHTML;
+let originText = document.querySelector("#origin-text p").innerHTML;
 const resetButton = document.querySelector("#reset");
 const theTimer = document.querySelector(".timer");
 
@@ -11,8 +11,24 @@ let startTime = null;
 let testRunning = false;
 let testComplete = false;
 
+// Array of text paragraphs 
+const textPool = [ // Roughly around the same length for each paragraph to keep the test consistent
+    "Typing tests are a great way to improve your typing speed and accuracy, and can be a fun challenge for people of all ages.",
+    "Speed typing is an essential skill in today's digital world, allowing you to communicate more efficiently and effectively.",
+    "So many people struggle with typing because they never learned proper finger placement or took the time to practice regularly.",
+    "There are many online typing test platforms available that offer a variety of texts and difficulty levels to help you practice.",
+    "The quick brown fox jumps over the lazy dog is a pangram that contains every letter of the English alphabet at least once.",
+    "Some people find that using a mechanical keyboard can enhance their typing experience and help them achieve faster speeds.",
+    "Regular practice with typing tests can help you develop muscle memory and increase your confidence when typing on a keyboard.",
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+];
+
 // Display any existing scores on page load
 displayScores();
+
+// Initialize the test with a random text from the pool
+document.querySelector("#origin-text p").innerHTML = textPool[Math.floor(Math.random() * textPool.length)];
+originText = document.querySelector("#origin-text p").innerHTML;
 
 // Add leading zero to numbers 9 or below (purely for aesthetics)
 function leadingZero(n) { 
@@ -98,7 +114,9 @@ function resetTest() {
     theTimer.innerHTML = "00:00:00";
     testArea.value = "";
     testWrapper.style.borderColor = "grey";
-    
+    document.querySelector("#origin-text p").innerHTML = textPool[Math.floor(Math.random() * textPool.length)];
+    originText = document.querySelector("#origin-text p").innerHTML;
+
     testComplete = false;
     testArea.disabled = false;
     
