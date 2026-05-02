@@ -5,9 +5,10 @@ const resetButton = document.querySelector("#reset");
 const theTimer = document.querySelector(".timer");
 
 // Variable Declarations and Initializations
-let timerInterval = null;
 let elapsedMs = 0;
+let errorCount = 0;
 let startTime = null;
+let timerInterval = null;
 let testRunning = false;
 let testComplete = false;
 
@@ -77,7 +78,11 @@ function checkInput() {
     } else { 
         // Typo detected - text does not match
         testWrapper.style.borderColor = "red"; // Red border
+
+        errorCount++; // Increment error count
     }
+
+    updateMetrics(); // Update WPM and error count metrics
 }
 
 // Start the timer:
@@ -100,7 +105,6 @@ function stopTimer() {
     return elapsedMs;
 }
 
-
 // Reset everything
 function resetTest() { 
 
@@ -111,15 +115,30 @@ function resetTest() {
     
     // Reset variables and UI elements
     elapsedMs = 0;
-    theTimer.innerHTML = "00:00:00";
+    errorCount = 0;
     testArea.value = "";
+    theTimer.innerHTML = "00:00:00";
     testWrapper.style.borderColor = "grey";
+    document.querySelector("#wpm").innerHTML = "0";
+    document.querySelector("#errors").innerHTML = "0";
+
     document.querySelector("#origin-text p").innerHTML = textPool[Math.floor(Math.random() * textPool.length)];
     originText = document.querySelector("#origin-text p").innerHTML;
 
     testComplete = false;
     testArea.disabled = false;
     
+}
+
+// Update Metrics 
+function updateMetrics() {
+    // Words per minute (WPM) calculation: (total characters / 5) / (elapsed time in minutes)
+    const wpm = Math.round((testArea.value.length / 5) / (elapsedMs / 60000)); 
+
+    // Display WPM, handle NaN case
+    document.querySelector("#wpm").innerHTML = isNaN(wpm) ? 0 : wpm; 
+    // Display error count
+    document.querySelector("#errors").innerHTML = errorCount; 
 }
 
 // Save score to localStorage (Top 3 Scores)
@@ -148,7 +167,6 @@ function displayScores() {
         scoreList.appendChild(li);
     });
 }
-
 
 // Event listeners for keyboard input and the reset button
 
