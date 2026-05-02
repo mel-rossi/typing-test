@@ -9,6 +9,7 @@ let timerInterval = null;
 let elapsedMs = 0;
 let startTime = null;
 let testRunning = false;
+let testComplete = false;
 
 
 // Add leading zero to numbers 9 or below (purely for aesthetics)
@@ -43,7 +44,22 @@ function runTimer() {
 function checkInput() { 
 
     if (testArea.value === originText) { 
-        stopTimer();
+        // Matches the original text perfectly 
+
+        testWrapper.style.borderColor = "green"; // Green border
+        testComplete = true; // Mark the test as complete
+        testArea.disabled = true; // Disable further input
+        stopTimer(); // Stop timer 
+        
+        return; 
+    }
+
+    if (originText.startsWith(testArea.value)) { 
+        // Matches the original text so far 
+        testWrapper.style.borderColor = "blue"; // Blue border
+    } else { 
+        // Does not match the original text (typo or extra characters)
+        testWrapper.style.borderColor = "red"; // Red border
     }
 }
 
@@ -51,7 +67,7 @@ function checkInput() {
 // Start the timer:
 function startTimer() { 
 
-    if (!testRunning) { 
+    if (!testRunning && !testComplete) { 
         testRunning = true; 
         startTime = Date.now();
         runTimer();
@@ -64,7 +80,7 @@ function stopTimer() {
     clearInterval(timerInterval);
     timerInterval = null;
     testRunning = false;
-    
+
     return elapsedMs;
 }
 
@@ -81,7 +97,9 @@ function resetTest() {
     elapsedMs = 0;
     theTimer.innerHTML = "00:00:00";
     testArea.value = "";
-    testArea.style.borderColor = "grey";
+    testWrapper.style.borderColor = "grey";
+    testComplete = false;
+    testArea.disabled = false;
     
 }
 
