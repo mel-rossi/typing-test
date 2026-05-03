@@ -32,6 +32,7 @@ displayScores();
 // Initialize the test with a random text from the pool
 document.querySelector("#origin-text p").innerHTML = textPool[Math.floor(Math.random() * textPool.length)];
 originText = document.querySelector("#origin-text p").innerHTML;
+renderOriginText();
 
 // Add leading zero to numbers 9 or below (purely for aesthetics)
 function leadingZero(n) { 
@@ -65,6 +66,8 @@ function checkInput() {
     if (testArea.value === originText) { 
         // Successfully completed test
 
+        updateOriginColors(); // render "." final character color
+
         testWrapper.style.borderColor = "green"; // Green border
         testComplete = true; // Mark the test as complete
         testArea.disabled = true; // Disable further input
@@ -85,6 +88,7 @@ function checkInput() {
     }
 
     updateMetrics(); // Update WPM and error count metrics
+    updateOriginColors(); // Update Origin Text Render Colors
 }
 
 // Start the timer:
@@ -126,6 +130,7 @@ function resetTest() {
 
     document.querySelector("#origin-text p").innerHTML = textPool[Math.floor(Math.random() * textPool.length)];
     originText = document.querySelector("#origin-text p").innerHTML;
+    renderOriginText();
 
     testComplete = false;
     testArea.disabled = false;
@@ -170,6 +175,28 @@ function displayScores() {
         // Display placeholder for empty scores
         li.innerHTML = ms ? formatTime(ms) : "99:99:99"; 
         scoreList.appendChild(li);
+    });
+}
+
+// Render Origin Text while typing 
+function renderOriginText() {
+    document.querySelector("#origin-text p").innerHTML = originText
+        .split("")
+        .map(char => `<span>${char}</span>`)
+        .join("");
+}
+
+// Update Origin Text Render 
+function updateOriginColors() { 
+    const typed = testArea.value; 
+    const spans = document.querySelectorAll("#origin-text p span");
+
+    spans.forEach((span, i) => {
+        if (i < typed.length) { 
+            span.style.color = typed[i] == originText[i] ? "#5ecec6" : "#e95d0f";
+        } else { 
+            span.style.color = "rgba(255, 255, 255, 0.85";
+        }
     });
 }
 
