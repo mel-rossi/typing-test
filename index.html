@@ -34,55 +34,60 @@
 
         </article>
 
-        <section class="test-area">
+        <div class="test-leaderboard-container">
 
-            <!-- Sample Text -->
-            <div id="origin-text">
-                <p>The text to test.</p>
-            </div>
+            <!-- Leaderboard -->
+            <section class="leaderboard"> 
 
-            <!-- Live Metrics -->
-            <div class="live-metrics">
-                <!-- WPM -->
-                <div><strong>WPM:</strong> <span id="wpm">0</span></div>
+                <h2>Top 3 Scores</h2>
 
-                <!-- Errors -->
-                <div><strong>Errors:</strong> <span id="errors">0</span></div>
-            </div>
+                <ol id ="score-list"></ol>
 
-            <!-- Text Input Area -->
-            <div class="test-wrapper">
+            </section>
 
-                <textarea id="test-area" 
-                          name="textarea" 
-                          rows="6" 
-                          placeholder="The clock starts when you start typing."
-                ></textarea>
+            <!-- Test Area -->
+            <section class="test-area">
 
-            </div>
-            
-            <div class="meta">
-                <!-- Timer -->
-                <section id="clock">
+                <!-- Sample Text -->
+                <div id="origin-text">
+                    <p>The text to test.</p>
+                </div>
 
-                    <div class="timer">00:00:00</div>
+                <!-- Live Metrics -->
+                <div class="live-metrics">
+                    <!-- WPM -->
+                    <div class="metric"><strong>WPM:</strong> <span id="wpm">0</span></div>
 
-                </section>
+                    <!-- Errors -->
+                    <div class="metric"><strong>Errors:</strong> <span id="errors">0</span></div>
+                </div>
 
-                <!-- Reset Button -->
-                <button id="reset">Start over</button>
-            </div>
+                <!-- Text Input Area -->
+                <div class="test-wrapper">
 
-        </section>
+                    <textarea id="test-area" 
+                            name="textarea" 
+                            rows="6" 
+                            placeholder="The clock starts when you start typing."
+                    ></textarea>
 
-        <!-- Leaderboard -->
-        <section class="leaderboard"> 
+                </div>
+                
+                <div class="meta">
+                    <!-- Timer -->
+                    <section id="clock">
 
-            <h2>Top 3 Scores</h2>
+                        <div class="timer">00:00:00</div>
 
-            <ol id ="score-list"></ol>
+                    </section>
 
-        </section>
+                    <!-- Reset Button -->
+                    <button id="reset">Start over</button>
+                </div>
+
+            </section>
+
+        </div>
 
     </main>
 
