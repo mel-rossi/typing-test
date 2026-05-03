@@ -4,6 +4,8 @@ let originText = document.querySelector("#origin-text p").innerHTML;
 const resetButton = document.querySelector("#reset");
 const theTimer = document.querySelector(".timer");
 
+// localStorage.clear(); // Clear localStorage for testing purposes
+
 // Variable Declarations and Initializations
 let elapsedMs = 0;
 let errorCount = 0;
@@ -161,9 +163,12 @@ function displayScores() {
 
     scoreList.innerHTML = ""; // Clear existing scores
 
+    while (scores.length < 3) scores.push(null); // Fill in nulls for empty scores
+
     scores.forEach((ms, i) => {
         const li = document.createElement("li");
-        li.innerHTML = formatTime(ms);
+        // Display placeholder for empty scores
+        li.innerHTML = ms ? formatTime(ms) : "99:99:99"; 
         scoreList.appendChild(li);
     });
 }
@@ -171,7 +176,11 @@ function displayScores() {
 // Event listeners for keyboard input and the reset button
 
 // Start the timer when the user starts typing 
-testArea.addEventListener("keydown", startTimer); 
+testArea.addEventListener("keydown", (e) => { 
+    if (e.key.length === 1) { // Only start timer on regular character input, ignore control keys
+        startTimer();
+    } 
+});
 
 // Check the input after every keystroke to see if it matches the original text
 testArea.addEventListener("input", checkInput); 
