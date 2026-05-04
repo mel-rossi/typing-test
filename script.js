@@ -3,6 +3,7 @@ const testArea = document.querySelector("#test-area");
 let originText = document.querySelector("#origin-text p").innerHTML;
 const resetButton = document.querySelector("#reset");
 const theTimer = document.querySelector(".timer");
+const resetScore = document.querySelector("#reset-scores");
 
 // localStorage.clear(); // Clear localStorage for testing purposes
 
@@ -66,7 +67,7 @@ function checkInput() {
     if (testArea.value === originText) { 
         // Successfully completed test
 
-        updateOriginColors(); // render "." final character color
+        updateOriginColors(); // render "." final character
 
         testWrapper.style.borderColor = "green"; // Green border
         testComplete = true; // Mark the test as complete
@@ -170,12 +171,23 @@ function displayScores() {
 
     while (scores.length < 3) scores.push(null); // Fill in nulls for empty scores
 
-    scores.forEach((ms, i) => {
+    scores.forEach((ms) => {
         const li = document.createElement("li");
         // Display placeholder for empty scores
         li.innerHTML = ms ? formatTime(ms) : "99:99:99"; 
         scoreList.appendChild(li);
     });
+}
+
+// Reset Leaderboard 
+function resetScores() { 
+    // Fallback in case the button was clicked by mistake 
+    const confirmed = confirm("Previous scores CANNOT be retrieved if you reset the Leaderboard.");
+
+    if (confirmed) { 
+        localStorage.removeItem("typingScores"); // Erase scores from Local Storage 
+        displayScores();
+    }
 }
 
 // Render Origin Text while typing 
@@ -214,3 +226,6 @@ testArea.addEventListener("input", checkInput);
 
 // Reset the test when the reset button is clicked
 resetButton.addEventListener("click", resetTest); 
+
+// Reset Leaderboard Button 
+resetScore.addEventListener("click", resetScores);

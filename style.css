@@ -193,7 +193,6 @@ body {
 #reset {
   color: #E95D0F;
   font-weight: bold;
-  border: 1px solid #45475a;
   border-radius: 6px;
   padding: 0.5em 1em;
   font-size: 1.2rem;
@@ -287,6 +286,25 @@ body {
 #score-list li:nth-child(3)::before {
     background: linear-gradient(135deg, #cd7f32, #8b4a0f);
     color: #fff8f0;
+}
+
+#reset-scores {
+    display: block;
+    margin: 0.75em auto 0;
+    color: #5ecec6;
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 0.1em 0.5em;
+    font-size: 1rem;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 5px solid #5ecec6;
+    transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+#reset-scores:hover {
+    color: White;
+    background-color: #5ecec6;
 }
 
 /* Live Metrics Styles */
