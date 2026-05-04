@@ -23,6 +23,7 @@
 
     <main class="main">
 
+        <!-- Introduction -->
         <article class="intro">
 
             <p>
@@ -41,8 +42,10 @@
 
                 <h2>Top 3 Scores</h2>
 
-                <ol id ="score-list"></ol>
+                <!-- Leaderboard Scores -->
+                <ol id="score-list"></ol>
 
+                <!-- Reset Leaderboard Button -->
                 <button id="reset-scores">Reset</button>
 
             </section>
@@ -84,7 +87,7 @@
 
                     </section>
 
-                    <!-- Reset Button -->
+                    <!-- Reset Test Button -->
                     <button id="reset">Start over</button>
                 </div>
 
@@ -93,6 +96,42 @@
         </div>
 
     </main>
+
+    <!-- Score Details Pop Up -->
+    <dialog id="score-popup" class="score-popup hidden">
+
+        <div class="score-popup-content">
+
+            <!-- Close Pop Up Button -->
+            <button id="close-popup">✕</button>
+
+            <h3>Score Details</h3>
+            <h4><span id="popup-time"></span></h4>
+
+            <!-- Score Holder -->
+            <p><strong>Player:</strong> <span id="popup-player"></span></p>
+
+            <!-- Score Metrics -->
+            <p>
+                <strong>WPM:</strong> <span id="popup-wpm"></span> &nbsp; 
+                <strong>Errors:</strong> <span id="popup-errors"></span>
+            </p>
+
+            <!-- Score Log Date -->
+            <p><strong>Date:</strong> <span id="popup-date"></span></p>
+
+        </div>
+
+    </dialog>
+
+    <!-- Site Footer -->
+    <footer role="contentinfo", class="site-footer"> 
+        <a href="https://github.com/mel-rossi/typing-test">&#x24D8; Source Code</a>
+
+        <hr>
+
+        <pre>Copyright © 2026 Mel Rossi Rodrigues. All rights reserved.</pre>
+    </footer>
 
 </body>
 

@@ -5,14 +5,12 @@ const resetButton = document.querySelector("#reset");
 const theTimer = document.querySelector(".timer");
 const resetScore = document.querySelector("#reset-scores");
 
-// localStorage.clear(); // Clear localStorage for testing purposes
-
 // Variable Declarations and Initializations
 let elapsedMs = 0;
 let errorCount = 0;
 let startTime = null;
-let timerInterval = null;
 let testRunning = false;
+let timerInterval = null;
 let testComplete = false;
 
 // Array of text paragraphs 
@@ -69,7 +67,7 @@ function checkInput() {
 
         updateOriginColors(); // render "." final character
 
-        testWrapper.style.borderColor = "green"; // Green border
+        testWrapper.style.borderColor = "#2E7D32"; // Green border
         testComplete = true; // Mark the test as complete
         testArea.disabled = true; // Disable further input
         stopTimer(); // Stop timer 
@@ -80,10 +78,10 @@ function checkInput() {
 
     if (originText.startsWith(testArea.value)) { 
         // Typing & matching text correctly
-        testWrapper.style.borderColor = "blue"; // Blue border
+        testWrapper.style.borderColor = "#1565C0"; // Blue border
     } else { 
         // Typo detected - text does not match
-        testWrapper.style.borderColor = "red"; // Red border
+        testWrapper.style.borderColor = "#C62828"; // Red border
 
         errorCount++; // Increment error count
     }
@@ -154,8 +152,18 @@ function saveScore(ms) {
     // Existing scores
     let scores = JSON.parse(localStorage.getItem("typingScores")) || [];
 
-    scores.push(ms); // Add new score
-    scores.sort((a, b) => a - b); // Sort in ascending order (faster > slower)
+    const now = new Date(); 
+    scores.push({ 
+        ms, 
+        errors: errorCount, 
+        wpm: Math.round((originText.length / 5) / (ms / 60000)),
+        date: now.toLocaleDateString(),
+        time: now.toLocaleTimeString(),
+        player: "Player 1"
+    });
+
+
+    scores.sort((a, b) => a.ms - b.ms); // Sort in ascending order (faster > slower)
     scores = scores.slice(0, 3); // Top 3 scores only
 
     localStorage.setItem("typingScores", JSON.stringify(scores)); // Save back to localStorage
@@ -171,12 +179,34 @@ function displayScores() {
 
     while (scores.length < 3) scores.push(null); // Fill in nulls for empty scores
 
-    scores.forEach((ms) => {
+    scores.forEach((score) => {
         const li = document.createElement("li");
-        // Display placeholder for empty scores
-        li.innerHTML = ms ? formatTime(ms) : "99:99:99"; 
+        li.innerHTML = score ? `<span class="score-time">${formatTime(score.ms)}</span>` : `<span class="score-time">99:99:99</span>`;
+
+        if (score) {
+            li.style.cursor = "pointer";
+            li.addEventListener("click", () => {
+                console.log("clicked", score);
+                openScorePopup(score);
+            }); 
+        }
+
         scoreList.appendChild(li);
     });
+
+    
+}
+
+// Open Score Details Pop Up
+function openScorePopup(score) { 
+    const popup = document.querySelector("#score-popup");
+    popup.classList.remove("hidden");
+
+    document.querySelector("#popup-player").textContent = score.player;
+    document.querySelector("#popup-time").textContent = formatTime(score.ms);
+    document.querySelector("#popup-wpm").textContent = score.wpm;
+    document.querySelector("#popup-errors").textContent = score.errors;
+    document.querySelector("#popup-date").textContent = `${score.date} ${score.time}`;
 }
 
 // Reset Leaderboard 
@@ -229,3 +259,8 @@ resetButton.addEventListener("click", resetTest);
 
 // Reset Leaderboard Button 
 resetScore.addEventListener("click", resetScores);
+
+// Score Details Popup
+document.querySelector("#close-popup").addEventListener("click", () => {
+    document.querySelector("#score-popup").classList.add("hidden");
+});
