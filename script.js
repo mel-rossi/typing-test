@@ -152,22 +152,26 @@ function saveScore(ms) {
     // Existing scores
     let scores = JSON.parse(localStorage.getItem("typingScores")) || [];
 
-    const now = new Date(); 
-    scores.push({ 
-        ms, 
-        errors: errorCount, 
-        wpm: Math.round((originText.length / 5) / (ms / 60000)),
-        date: now.toLocaleDateString(),
-        time: now.toLocaleTimeString(),
-        player: "Player 1"
-    });
+    // Check if score makes the top 3
+    if (scores.length < 3 || ms < scores[scores.length - 1].ms) {
+        const input = prompt("New Top 3 Score!\n Enter a Player ID to register (leave blank for Anon):");
+        const player = input && input.trim() !== "" ? input.trim() : "Anon";
 
+        const now = new Date(); 
+        scores.push({ 
+            ms, 
+            errors: errorCount, 
+            wpm: Math.round((originText.length / 5) / (ms / 60000)),
+            date: now.toLocaleDateString() + " " + now.toLocaleTimeString(),
+            player
+        });
 
-    scores.sort((a, b) => a.ms - b.ms); // Sort in ascending order (faster > slower)
-    scores = scores.slice(0, 3); // Top 3 scores only
+        scores.sort((a, b) => a.ms - b.ms); // Sort in ascending order (faster > slower)
+        scores = scores.slice(0, 3); // Top 3 scores only
 
-    localStorage.setItem("typingScores", JSON.stringify(scores)); // Save back to localStorage
-    displayScores(); // Update displayed scores
+        localStorage.setItem("typingScores", JSON.stringify(scores)); // Save back to localStorage
+        displayScores(); // Update displayed scores
+    }
 }
 
 // Display scores 
@@ -206,7 +210,7 @@ function openScorePopup(score) {
     document.querySelector("#popup-time").textContent = formatTime(score.ms);
     document.querySelector("#popup-wpm").textContent = score.wpm;
     document.querySelector("#popup-errors").textContent = score.errors;
-    document.querySelector("#popup-date").textContent = `${score.date} ${score.time}`;
+    document.querySelector("#popup-date").textContent = score.date;
 }
 
 // Reset Leaderboard 
