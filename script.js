@@ -272,6 +272,12 @@ function applySize(size) {
     sizeUp.disabled = size >= MAX_SIZE; // Disable Button When MAX_SIZE is reached 
 }
 
+// Prevent autocomplete/autofill
+testArea.setAttribute("autocomplete", "off");
+testArea.setAttribute("autocorrect", "off");
+testArea.setAttribute("autocapitalize", "off");
+testArea.setAttribute("spellcheck", "false");
+
 // Event listeners
 
 // Start the timer when the user starts typing 
@@ -285,6 +291,11 @@ testArea.addEventListener("keydown", (e) => {
 
 // Check the input after every keystroke to see if it matches the original text
 testArea.addEventListener("input", checkInput); 
+
+// Prevent Paste
+testArea.addEventListener("paste", (e) => {
+    e.preventDefault();
+});
 
 // Reset the test when the reset button is clicked
 resetButton.addEventListener("click", resetTest); 
