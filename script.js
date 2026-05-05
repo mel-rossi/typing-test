@@ -12,6 +12,7 @@ let startTime = null;
 let testRunning = false;
 let timerInterval = null;
 let testComplete = false;
+let isBackspace = false;
 
 // Array of text paragraphs 
 const textPool = [ // Roughly around the same length for each paragraph to keep the test consistent
@@ -83,7 +84,10 @@ function checkInput() {
         // Typo detected - text does not match
         testWrapper.style.borderColor = "#C62828"; // Red border
 
-        errorCount++; // Increment error count
+        // Prevent adding to counter when backspacing to correct a mistake
+        if (!isBackspace) { 
+            errorCount++; // Increment error count
+        }
     }
 
     updateMetrics(); // Update WPM and error count metrics
@@ -250,6 +254,8 @@ function updateOriginColors() {
 
 // Start the timer when the user starts typing 
 testArea.addEventListener("keydown", (e) => { 
+    isBackspace = e.key === "Backspace"; // Flag Backspaces
+
     if (e.key.length === 1) { // Only start timer on regular character input, ignore control keys
         startTimer();
     } 
