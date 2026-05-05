@@ -210,7 +210,7 @@ body {
 .meta {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 1em;
+    margin: 1em 0;
     align-items: center;
     justify-content: space-between;
 }
@@ -227,6 +227,7 @@ body {
 
 /* Reset Test Button */
 #reset { /* Default */
+    margin: 1em;
     cursor: pointer;
     color: #E95D0F;
     font-weight: bold;
@@ -415,4 +416,62 @@ body {
     padding: 0.3em 0.6em;
     background: #1a2f4e;
     border: 1px solid rgba(66, 152, 144, 0.4);
+}
+
+/* Font & Size Toggle Bar */
+.settings-bar {
+    display: flex;
+    gap: 1em;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0.6em 2em;
+    background: #111d2b;
+    border-bottom: 1px solid rgba(66, 152, 144, 0.25);
+    justify-content: flex-end;
+}
+
+.settings-bar label {
+    color: #5ecec6;
+    font-size: 0.8em;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.settings-group {
+    display: flex;
+    gap: 0.4em;
+    align-items: center;
+}
+
+.toggle-btn {
+    cursor: pointer;
+    color: rgba(255,255,255,0.6);
+    border-radius: 5px;
+    padding: 0.2em 0.7em;
+    font-size: 0.82em;
+    border: 1px solid rgba(66, 152, 144, 0.35);
+    background: rgba(255,255,255,0.05);
+    transition: all 0.2s ease;
+}
+
+.toggle-btn:hover {
+    color: white;
+    border-color: #5ecec6;
+}
+
+.toggle-btn.active {
+    color: #0f1923;
+    background: #5ecec6;
+    border-color: #5ecec6;
+    font-weight: bold;
+}
+
+#size-display {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+#size-display:hover {
+    color: #5ecec6;
 }

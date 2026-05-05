@@ -4,6 +4,10 @@ let originText = document.querySelector("#origin-text p").innerHTML;
 const resetButton = document.querySelector("#reset");
 const theTimer = document.querySelector(".timer");
 const resetScore = document.querySelector("#reset-scores");
+const fontToggle = document.getElementById("font-toggle")
+const sizeUp = document.getElementById("size-up");
+const sizeDown = document.getElementById("size-down");
+const sizeDisplay = document.getElementById("size-display");
 
 // Variable Declarations and Initializations
 let elapsedMs = 0;
@@ -194,7 +198,6 @@ function displayScores() {
         if (score) {
             li.style.cursor = "pointer";
             li.addEventListener("click", () => {
-                console.log("clicked", score);
                 openScorePopup(score);
             }); 
         }
@@ -250,7 +253,26 @@ function updateOriginColors() {
     });
 }
 
-// Event listeners for keyboard input and the reset button
+// Font Size Variables 
+const MIN_SIZE = 14;
+const MAX_SIZE = 30;
+const DEFAULT_SIZE = 18;
+let currentSize = DEFAULT_SIZE;
+
+// Apply new Font-Size 
+function applySize(size) { 
+
+    document.querySelectorAll("body, button, input, select, textarea").forEach(el => {
+        el.style.fontSize = size + "px";
+    });
+
+    sizeDisplay.textContent = size + "px"; // Font Size Display: "#px"
+
+    sizeDown.disabled = size <= MIN_SIZE; // Disable Button When MIN_SIZE is reached
+    sizeUp.disabled = size >= MAX_SIZE; // Disable Button When MAX_SIZE is reached 
+}
+
+// Event listeners
 
 // Start the timer when the user starts typing 
 testArea.addEventListener("keydown", (e) => { 
@@ -273,4 +295,33 @@ resetScore.addEventListener("click", resetScores);
 // Score Details Popup
 document.querySelector("#close-popup").addEventListener("click", () => {
     document.querySelector("#score-popup").classList.add("hidden");
+});
+
+// Font Family Toggle 
+fontToggle.addEventListener("click", (e) => {
+    const btn = e.target.closest(".toggle-btn"); 
+
+    if (!btn) return; 
+    
+    document.querySelectorAll("#font-toggle .toggle-btn").forEach(b => b.classList.remove("active")); 
+    btn.classList.add("active"); 
+    const font = btn.dataset.font;
+    
+    document.body.style.fontFamily = font;
+});
+
+// Font Size Up Toggle 
+sizeUp.addEventListener("click", () => {
+    if (currentSize < MAX_SIZE) { currentSize += 2; applySize(currentSize); }
+});
+
+// Font Size Down Toggle 
+sizeDown.addEventListener("click", () => {
+    if (currentSize > MIN_SIZE) { currentSize -= 2; applySize(currentSize); }
+});
+
+// Font Size Default Toggle 
+sizeDisplay.addEventListener("click", () => {
+    currentSize = DEFAULT_SIZE;
+    applySize(currentSize);
 });
